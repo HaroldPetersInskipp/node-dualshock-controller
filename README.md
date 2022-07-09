@@ -5,6 +5,7 @@ node-dualshock-controller
 `dualshock-controller` Eventing API layer over HID for the Sony DualShock 3 and DualShock 4 controllers
 
 ## Installation:
+Only a manual instalation of this module will work for right now. The below install instructions will not work.
 
 #### OSX/Windows:
 
