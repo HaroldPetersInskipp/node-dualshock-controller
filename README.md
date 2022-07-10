@@ -1,20 +1,29 @@
 node-dualshock-controller
 =========================
-[![Build Status](https://travis-ci.org/rdepena/node-dualshock-controller.png?branch=master)](https://travis-ci.org/rdepena/node-dualshock-controller) [![Code Climate](https://codeclimate.com/github/rdepena/node-dualshock-controller.png)](https://codeclimate.com/github/rdepena/node-dualshock-controller)
 
-`dualshock-controller` Eventing API layer over HID for the Sony DualShock 3 and DualShock 4 controllers
+This project is an updated fork of [node-dualshock-controller](https://github.com/rdepena/node-dualshock-controller) An eventing API layer over HID for the Sony DualShock 3 and DualShock 4 controllers.
 
-## Installation:
-Only a manual instalation of this module will work for right now. The below install instructions will not work.
+# Installation:
+Only a manual instalation of this package will work for right now.
 
-#### OSX/Windows:
+Download the github repo with `git clone https://github.com/HaroldPetersInskipp/node-dualshock-controller.git` or from [here](https://github.com/HaroldPetersInskipp/node-dualshock-controller/archive/refs/heads/main.zip).
+To use with Node-RED, place the downloaded files in your `.node-red/node_modules` directory (usually located in the users home folder, it may be hidden by default)
+Extract the files.
+Then in your prefered terminal, navigate to the directory where you extracted the files and type `npm i` or `npm install`
 
-```bash
-npm install dualshock-controller
-```
-#### Linux:
+# Instructions - Import into Node-Red
+This flow is an example of the packages usage and can be imported into the Node-Red editor using the `flow.json` file. The package must be manually installed first.
 
-Review the [Linux support](#linux-support) section.
+In the Node-RED editor, select the `Import` menu option or press `ctrl-i` to bring up the import dialog.
+
+The Import dialog can be used to import a flow by the following methods:
+
+    pasting in the flow JSON directly,
+    uploading a flow JSON file,
+    browsing the local flow library,
+    browsing the example flows provided by installed nodes.
+
+After pasting the contents of `flow.json` click the `Import` button and click `Deploy` to deploy the flow.
 
 ## Using the DualShock library
 
@@ -24,28 +33,27 @@ Also, to use the touchpad, rumble and LED capabilities of the controller you
 must connect the controller to your computer using a micro-USB cable.
 
 ~~~~ javascript
-var dualShock = require('dualshock-controller');
+let dualShock = require('node-dualshock-controller');
 
-//pass options to init the controller.
-var controller = dualShock(
-    {
-        //you can use a ds4 by uncommenting this line.
-        //config: "dualshock4-generic-driver",
-        //if the above configuration doesn't work for you,
-        //try uncommenting the following line instead.
-        //config: "dualshock4-alternate-driver"
-        //if using ds4 comment this line.
-        config: "dualShock3",
-        //smooths the output from the acelerometers (moving averages) defaults to true
-        accelerometerSmoothing: true,
-        //smooths the output from the analog sticks (moving averages) defaults to false
-        analogStickSmoothing: false
-    });
+// pass options to init the controller.
+let controller = dualShock({
+    //you can use a ds4 by uncommenting this line.
+    config: "dualshock4-generic-driver", 
+    //if the above configuration doesn't work for you,
+    //try uncommenting the following line instead.
+    //config: "dualshock4-alternate-driver",  
+    //if using ds4 comment this line.
+    //config: "dualShock3",  
+    //smooths the output from the acelerometers (moving averages) defaults to true
+    accelerometerSmoothing: true, 
+    //smooths the output from the analog sticks (moving averages) defaults to false
+    analogStickSmoothing: false,
+});
 
-//make sure you add an error event handler
+// make sure you add an error event handler
 controller.on('error', err => console.log(err));
 
-//DualShock 4 control rumble and light settings for the controller
+// DualShock 4 control rumble and light settings for the controller
 controller.setExtras({
   rumbleLeft:  0,   // 0-255 (Rumble left intensity)
   rumbleRight: 0,   // 0-255 (Rumble right intensity)
@@ -56,122 +64,50 @@ controller.setExtras({
   flashOff:    10   // 0-255 (Flash off time)
 });
 
-//DualShock 3 control rumble and light settings for the controller
+// DualShock 3 control rumble and light settings for the controller
 controller.setExtras({
   rumbleLeft:  0,   // 0-1 (Rumble left on/off)
   rumbleRight: 0,   // 0-255 (Rumble right intensity)
   led: 2 // 2 | 4 | 8 | 16 (Leds 1-4 on/off, bitmasked)
 });
 
-//add event handlers:
+// add event handlers:
 controller.on('left:move', data => console.log('left Moved: ' + data.x + ' | ' + data.y));
-
 controller.on('right:move', data => console.log('right Moved: ' + data.x + ' | ' + data.y));
-
 controller.on('connected', () => console.log('connected'));
-
 controller.on('square:press', ()=> console.log('square press'));
-
 controller.on('square:release', () => console.log('square release'));
 
-//sixasis motion events:
-//the object returned from each of the movement events is as follows:
+// sixasis motion events:
+// the object returned from each of the movement events is as follows:
 //{
 //    direction : values can be: 1 for right, forward and up. 2 for left, backwards and down.
 //    value : values will be from 0 to 120 for directions right, forward and up and from 0 to -120 for left, backwards and down.
 //}
 
-//DualShock 4 TouchPad
-//finger 1 is x1 finger 2 is x2
+// DualShock 4 TouchPad
+// finger 1 is x1 finger 2 is x2
 controller.on('touchpad:x1:active', () => console.log('touchpad one finger active'));
-
 controller.on('touchpad:x2:active', () => console.log('touchpad two fingers active'));
-
 controller.on('touchpad:x2:inactive', () => console.log('touchpad back to single finger'));
-
 controller.on('touchpad:x1', data => console.log('touchpad x1:', data.x, data.y));
-
 controller.on('touchpad:x2', data => console.log('touchpad x2:', data.x, data.y));
 
-
-//right-left movement
+// right-left movement
 controller.on('rightLeft:motion', data => console.log(data));
-
-//forward-back movement
+// forward-back movement
 controller.on('forwardBackward:motion', data => console.log(data));
-
-//up-down movement
+// up-down movement
 controller.on('upDown:motion', data => console.log(data));
 
-//controller status
-//as of version 0.6.2 you can get the battery %, if the controller is connected and if the controller is charging
+// controller status
+// as of version 0.6.2 you can get the battery %, if the controller is connected and if the controller is charging
 controller.on('battery:change', data => console.log(data));
-
 controller.on('connection:change', data => console.log(data));
-
 controller.on('charging:change', data => console.log(data));
 
 ~~~~
 
-## <a name="linux-support"></a> Linux support:
-
-In order to provide Rumble/Gyro and LED support for all platforms the linux specific joystick implementation has been removed. This means you will need to:
-
-* [Install node-hid build requirements](#node-hid-build)
-* [Install node-hid with hidraw support](#node-hid-hidraw)
-* [create udev rules](#create-udev-rules)
-
-#### <a name="node-hid-build"></a> Install node-hid build requirements
-
-To build node-hid you will need to install:
-
-* libudev-dev
-* libusb-1.0-0
-* libusb-1.0-0-dev
-* build-essential
-* git
-* node-gyp
-* node-pre-gyp
-
-Using apt-get:
-
-```bash
-sudo apt-get install libudev-dev libusb-1.0-0 libusb-1.0-0-dev build-essential git
-```
-
-```bash
-npm install -g node-gyp node-pre-gyp
-```
-
-#### <a name="node-hid-hidraw"></a> Install node-hid with hidraw support
-
-Once you have run the installation scripts above you can install the node-dualshock module, then replace the installed node-hid with hidraw support enabled node-hid:
-
-```bash
-npm install dualshock-controller
-```
-
-```bash
-npm install node-hid --driver=hidraw --build-from-source
-```
-
-#### <a name="create-udev-rules"></a> Create udev rules
-
-You will need to create a udev rule to be able to access the hid stream as a non root user.
-
-Write the following file in `/etc/udev/rules.d/61-dualshock.rules`
-
-```
-SUBSYSTEM=="input", GROUP="input", MODE="0666"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="0268", MODE:="666", GROUP="plugdev"
-KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", GROUP="plugdev"
-
-SUBSYSTEM=="input", GROUP="input", MODE="0666"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="05c4", MODE:="666", GROUP="plugdev"
-KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", GROUP="plugdev"
-```
-
-Reload the rules `sudo udevadm control --reload-rules`, then disconnect/connect the controller.
 
 The MIT License (MIT)
 
