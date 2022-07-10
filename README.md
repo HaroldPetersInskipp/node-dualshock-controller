@@ -8,9 +8,9 @@ Only a manual instalation of this package will work for right now.
 
 Download the github repo with `git clone https://github.com/HaroldPetersInskipp/node-dualshock-controller.git`
 
-or from [here](https://github.com/HaroldPetersInskipp/node-dualshock-controller/archive/refs/heads/main.zip).
+Or from [HERE](https://github.com/HaroldPetersInskipp/node-dualshock-controller/archive/refs/heads/main.zip).
 
-To use with Node-RED, place the downloaded files in your `.node-red/node_modules` directory (usually located in the users home folder, it may be hidden by default)
+To use with Node-RED, place the downloaded files in your `.node-red/node_modules` directory (usually located in the users home folder, it may be hidden by default).
 
 Extract the files.
 
