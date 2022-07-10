@@ -6,13 +6,20 @@ This project is an updated fork of [node-dualshock-controller](https://github.co
 # Installation:
 Only a manual instalation of this package will work for right now.
 
-Download the github repo with `git clone https://github.com/HaroldPetersInskipp/node-dualshock-controller.git` or from [here](https://github.com/HaroldPetersInskipp/node-dualshock-controller/archive/refs/heads/main.zip).
+Download the github repo with `git clone https://github.com/HaroldPetersInskipp/node-dualshock-controller.git`
+
+or from [here](https://github.com/HaroldPetersInskipp/node-dualshock-controller/archive/refs/heads/main.zip).
+
 To use with Node-RED, place the downloaded files in your `.node-red/node_modules` directory (usually located in the users home folder, it may be hidden by default)
+
 Extract the files.
+
 Then in your prefered terminal, navigate to the directory where you extracted the files and type `npm i` or `npm install`
 
-# Instructions - Import into Node-Red
-This flow is an example of the packages usage and can be imported into the Node-Red editor using the `flow.json` file. The package must be manually installed first.
+# Optional Instructions - Import flow.json into Node-Red
+This flow is an example of the package being used to capture events from a Dualshock 4 controller for use in Node-RED.
+
+It can be imported into the Node-Red editor using the `flow.json` file. The package must have been manually installed first.
 
 In the Node-RED editor, select the `Import` menu option or press `ctrl-i` to bring up the import dialog.
 
@@ -24,6 +31,8 @@ The Import dialog can be used to import a flow by the following methods:
     browsing the example flows provided by installed nodes.
 
 After pasting the contents of `flow.json` click the `Import` button and click `Deploy` to deploy the flow.
+
+This example may save you some time starting a project, but doesn't do much else yet.
 
 ## Using the DualShock library
 
