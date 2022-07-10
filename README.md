@@ -51,7 +51,7 @@ let controller = dualShock({
     //if the above configuration doesn't work for you,
     //try uncommenting the following line instead.
     //config: "dualshock4-alternate-driver",  
-    //if using ds4 comment this line.
+    //if using ds3 uncomment this line.
     //config: "dualShock3",  
     //smooths the output from the acelerometers (moving averages) defaults to true
     accelerometerSmoothing: true, 
